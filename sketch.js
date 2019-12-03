@@ -2,15 +2,16 @@ let snake = new Snake()
 let direction = {x:1,y:0}
 function setup() {
   
-  createCanvas(400,400)
+  createCanvas(400,400);
   frameRate(10);
-  console.log(snake)
+  console.log(snake);
+  snake.generateFood();
 }
 
 function draw() {
   // put drawing code here
-  background(220)
-  snake.draw(direction)
+  background(220);
+  snake.draw(direction);
 
 }
 
