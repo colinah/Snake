@@ -3,29 +3,16 @@ function Snake() {
     this.body = [{x:0,y:0}];
     this.move = {x:0,y:1};
     this.food = {x:-15,y:-15};
+    this.eaten = false
 
     this.draw = (direction) => {
-        let c1 = [...this.body]
-        console.log('1', c1)
-        this.movement(); 
-        let c2 = [...this.body]
-        console.log('2', c2)        
+        this.movement();     
         this.show(); // no logic
-        
-        let c4 = [...this.body]
-        console.log('4', c4)
         this.changeDirection(direction);
-        let c5 = [...this.body]
-        console.log('5', c5)
-        this.eatFood()  
-        let c6 = [...this.body]
-        console.log('6', c6)
-        this.death(); 
-        let c3 = [...this.body]
-        console.log('3', c3)
+        this.eatFood()
+        if(!this.eaten) this.death()
         if(this.body.length > 0) this.segmentTrail();   
-
-        // console.log('food:', this.food, ' body[0]:', this.body[0])
+        this.eaten = false;
     }
 
     
@@ -38,10 +25,9 @@ function Snake() {
     }
 
     this.death = () => {
-        let c = [...this.body]
         let isDead = false;
-        for (let i = 2; i < this.body.lengt-1; i++) {
-            if (this.body[i].x === this.body[0].x || this.body[i].y === this.body[0].y) isDead = true;
+        for (let i = 1; i < this.body.length; i++) {
+            if (this.body[i].x === this.body[0].x && this.body[i].y === this.body[0].y) isDead = true;
         };
         if (this.body[0].y < 0 || this.body[0].y >= 400 || this.body[0].x < 0 || this.body[0].x >= 400 || isDead) {
             this.reset();
@@ -75,13 +61,14 @@ function Snake() {
 
     this.eatFood = () => {
         if(this.body[0].x === this.food.x && this.body[0].y === this.food.y) {
+            console.log('eaten')
             this.generateFood();
             this.foodSynthesis();
+            this.eaten = true
         }
     }
 
     this.foodSynthesis = () => {
-        console.log(this.body)
         this.body.push(Object.assign({},this.body[0]));
     }
 
